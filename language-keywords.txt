@@ -1,0 +1,100 @@
+abstract		== 		shell
+arguments		== 		params
+async *			== 		async
+await *			== 		await
+boolean			== 		hilo
+break			== 		escape
+byte			== 		byte
+case			== 		:{}:    	i.e. :{Conditional}:{...execute if condition met...}    
+catch			== 		onError
+char			== 		char
+class *			== 		blueprint
+const *			== 		C
+continue		== 		proceed
+debugger		== 		raid
+default			== 		base
+delete			== 		remove
+do				== 		execute
+double			== 		dnum
+else			== 		not
+enum *			== 		custom
+eval			== 		expand
+export *		== 		save
+extends *		== 		inherits
+false			== 		FF
+final			== 		fin
+finally			== 		after
+float			== 		fnum
+for				== 		to
+goto			== 		jump
+if				== 		is
+implements		== 		uses
+function		== 		func
+import *		== 		farm
+in				== 		look
+instanceof		== 		istypeof
+int				== 		inum
+interface		== 		formed
+let *			== 		let
+long			== 		lnum
+native			== 		cpp
+new				== 		create
+null			== 		non
+package			== 		wrap
+private			== 		secret
+protected		== 		heirs
+public			== 		overt
+return			== 		resolve (no returned value) | deliver (value to return)
+short			== 		snum
+static			== 		preload
+super *			== 		parent
+switch			== 		hub
+synchronized	== 		synced
+this			== 		$::
+throw			== 		explode
+throws			== 		reagent
+transient		== 		abrupt
+true			== 		TT
+try				== 		test
+typeof			== 		islike
+using *			== 		buildswith
+var				== 		var
+void			== 		empty
+volatile		== 		erratic
+while			== 		whenis
+expression 		== 		(condition)? (evaluates true) : (evaluates false);
+array-indece	-->			[i]
+range-indeces 	-->			[i:e] [inclusive:exclusive] i.e. arr[0:arr.length] == all elements of array
+addition 		-->			+
+subtraction 	-->			-
+increment 		-->			n++
+decrement 		-->			n--
+pre-increment 	-->			++n
+pre-decrement 	-->			--n
+op-assignment 	-->			+=		additive 
+				-->			-=		subractive
+				-->			*= 		multiplicative
+				-->			/= 		divisary
+				-->			^= 		1 < exponentiate < inf, 0 < root < 1, -inf < divisor < 0
+exponents     	-->			n^e 	examples: 	2^3 = 8		;	 3^3 = 27	;	 9^(1/2) = 3	;	 9^(-0.5) = 1/3
+summation     	-->			E:6:6:8:756:4:6:22:arr[5]
+division      	-->			/
+multiplcation 	-->			*
+factorial     	-->			!!
+equal          	-->			==
+not		        -->			!
+less than      	-->	 		<
+greater than    -->			>
+less than equal to --> 		<=
+greater than equal to -->	>=
+true 			-->			TT
+false 			-->			FF
+end of statement--> 		;
+block of code 	--> 		{ }
+organizational 	--> 		( )
+newline 		--> 		\n
+eof 			--> 		\0
+
+whitespace == ' '(trimmable-space), '\w'(preserved-space), '\t'(tab)
+field-accessor	--> 		'.'
+method-accessor -->			'->'
