@@ -1,4 +1,4 @@
-# Forge v0.1 Language Specification   <img align="right" height="50" alt="Forge-logo" src="https://github.com/user-attachments/assets/88b247f3-f4c9-4687-a352-c521c47fa3c6">
+# Forge v0.1 Language Specification   <img align="right" height="45" alt="Forge-logo" src="https://github.com/user-attachments/assets/88b247f3-f4c9-4687-a352-c521c47fa3c6">
 
 
 
