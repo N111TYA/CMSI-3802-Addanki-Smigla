@@ -1,4 +1,5 @@
-Forge v0.1 Language Specification <span style="float: right; padding-bottom: 20px;"><img src="https://github.com/user-attachments/assets/88b247f3-f4c9-4687-a352-c521c47fa3c6" width="100" alt="Forge-logo"></span>
+# Forge v0.1 Language Specification   <img align="right" width="44.7" height="41.9" alt="Forge-logo" src="https://github.com/user-attachments/assets/88b247f3-f4c9-4687-a352-c521c47fa3c6">
+
 
 ## 1. Overview
 
@@ -177,7 +178,7 @@ Forge supports both line comments and block comments.
 // this is a line comment
 
 /* this is
-   a block comment */
+   a block comment */
 ```
 
 ### 3.5 Whitespace
@@ -219,9 +220,9 @@ Forge v0.1 supports these primitive types:
 Local variables may be inferred from their initializer.
 
 ```forge
-let n = 3;       // inferred as inum
-let pi = 3.14;   // inferred as fnum or dnum, implementation-defined
-let ok = TT;     // inferred as hilo
+let n = 3;       // inferred as inum
+let pi = 3.14;   // inferred as fnum or dnum, implementation-defined
+let ok = TT;     // inferred as hilo
 ```
 
 ### 4.4 Explicit Type Annotations
@@ -230,7 +231,7 @@ Function parameters and return types are explicit.
 
 ```forge
 func add(a: inum, b: inum): inum {
-  deliver a + b;
+  deliver a + b;
 }
 ```
 
@@ -276,7 +277,7 @@ Therefore this is valid:
 
 ```forge
 func foo(): inum {
-  deliver TT;
+  deliver TT;
 }
 ```
 
@@ -291,10 +292,10 @@ Example:
 
 ```forge
 func isPositive(v: inum): hilo {
-  is (v < 0) {
-    deliver FF;
-  }
-  deliver (hilo) v;
+  is (v < 0) {
+    deliver FF;
+  }
+  deliver (hilo) v;
 }
 ```
 
@@ -332,9 +333,9 @@ Forge supports explicit globals via the `global` keyword.
 
 ```forge
 global g = {
-  someValue: 1,
-  someString: "foo",
-  constantValue: 3.14
+  someValue: 1,
+  someString: "foo",
+  constantValue: 3.14
 };
 ```
 
@@ -357,7 +358,7 @@ A declaration exists only within the block in which it is declared.
 
 ```forge
 is (TT) {
-  let x = 3;
+  let x = 3;
 }
 // x is out of scope here
 ```
@@ -369,7 +370,7 @@ Shadowing is allowed, but should generate a warning when an inner declaration hi
 ```forge
 let x = 1;
 is (TT) {
-  let x = 2; // allowed, but warn
+  let x = 2; // allowed, but warn
 }
 ```
 
@@ -383,7 +384,7 @@ Functions use `func`.
 
 ```forge
 func add(a: inum, b: inum): inum {
-  deliver a + b;
+  deliver a + b;
 }
 ```
 
@@ -393,7 +394,7 @@ Parameters are explicitly typed.
 
 ```forge
 func scale(v: dnum, factor: dnum): dnum {
-  deliver v * factor;
+  deliver v * factor;
 }
 ```
 
@@ -403,7 +404,7 @@ Functions must declare an explicit return type.
 
 ```forge
 func stop(): empty {
-  resolve;
+  resolve;
 }
 ```
 
@@ -458,9 +459,9 @@ Forge uses `is` and `not`.
 
 ```forge
 is (x < y) {
-  deliver x;
+  deliver x;
 } not {
-  deliver y;
+  deliver y;
 }
 ```
 
@@ -470,7 +471,7 @@ Forge uses `whenis`.
 
 ```forge
 whenis (x < 10) {
-  x = x + 1;
+  x = x + 1;
 }
 ```
 
@@ -480,7 +481,7 @@ Forge uses `execute ... whenis`.
 
 ```forge
 execute {
-  x = x + 1;
+  x = x + 1;
 } whenis (x < 10);
 ```
 
@@ -490,7 +491,7 @@ Forge uses `whento`.
 
 ```forge
 whento (let i = 0; i < 10; i++) {
-  // loop body
+  // loop body
 }
 ```
 
@@ -516,15 +517,15 @@ Forge uses `hub`, `:{}:`, and `base`.
 
 ```forge
 hub (x) {
-  :{1}: {
-    deliver 100;
-  }
-  :{2}: {
-    deliver 200;
-  }
-  base {
-    resolve;
-  }
+  :{1}: {
+    deliver 100;
+  }
+  :{2}: {
+    deliver 200;
+  }
+  base {
+    resolve;
+  }
 }
 ```
 
@@ -604,39 +605,39 @@ Forge uses symbolic logical operators.
 
 #### `&&`
 
-| A  | B  | Result |
+| A  | B  | Result |
 | -- | -- | ------ |
-| TT | TT | TT     |
-| TT | FF | FF     |
-| FF | TT | FF     |
-| FF | FF | FF     |
+| TT | TT | TT     |
+| TT | FF | FF     |
+| FF | TT | FF     |
+| FF | FF | FF     |
 
 #### `||`
 
-| A  | B  | Result |
+| A  | B  | Result |
 | -- | -- | ------ |
-| TT | TT | TT     |
-| TT | FF | TT     |
-| FF | TT | TT     |
-| FF | FF | FF     |
+| TT | TT | TT     |
+| TT | FF | TT     |
+| FF | TT | TT     |
+| FF | FF | FF     |
 
 #### `^|`
 
-| A  | B  | Result |
+| A  | B  | Result |
 | -- | -- | ------ |
-| TT | TT | FF     |
-| TT | FF | TT     |
-| FF | TT | TT     |
-| FF | FF | FF     |
+| TT | TT | FF     |
+| TT | FF | TT     |
+| FF | TT | TT     |
+| FF | FF | FF     |
 
 #### `^&`
 
-| A  | B  | Result |
+| A  | B  | Result |
 | -- | -- | ------ |
-| TT | TT | TT     |
-| TT | FF | FF     |
-| FF | TT | FF     |
-| FF | FF | TT     |
+| TT | TT | TT     |
+| TT | FF | FF     |
+| FF | TT | FF     |
+| FF | FF | TT     |
 
 ---
 
@@ -778,7 +779,7 @@ Forge uses `custom` for enum-like and value-associated custom types.
 
 ```forge
 custom Color = {
-  Red, Green, Blue;
+  Red, Green, Blue;
 }
 ```
 
@@ -786,12 +787,12 @@ custom Color = {
 
 ```forge
 custom Token = {
-  Pi(3.14),
-  Count(21),
-  Enabled(TT),
-  Disabled(FF),
-  Roar("Roar!"),
-  Newline('\n');
+  Pi(3.14),
+  Count(21),
+  Enabled(TT),
+  Disabled(FF),
+  Roar("Roar!"),
+  Newline('\n');
 }
 ```
 
@@ -801,9 +802,9 @@ custom Token = {
 * optional payload must be a compile-time literal
 * members are addressable by:
 
-  * ordinal index
-  * member name
-  * payload value if lookup is unambiguous
+  * ordinal index
+  * member name
+  * payload value if lookup is unambiguous
 * invalid lookup returns `non`
 * ambiguous payload lookup also returns `non`
 
@@ -881,7 +882,7 @@ The Forge analyzer should detect at minimum:
 
 ```forge
 func add(a: inum, b: inum): inum {
-  deliver a + b;
+  deliver a + b;
 }
 ```
 
@@ -889,7 +890,7 @@ func add(a: inum, b: inum): inum {
 
 ```forge
 func stop(): empty {
-  resolve;
+  resolve;
 }
 ```
 
@@ -897,11 +898,11 @@ func stop(): empty {
 
 ```forge
 func max(a: inum, b: inum): inum {
-  is (a > b) {
-    deliver a;
-  } not {
-    deliver b;
-  }
+  is (a > b) {
+    deliver a;
+  } not {
+    deliver b;
+  }
 }
 ```
 
@@ -909,13 +910,13 @@ func max(a: inum, b: inum): inum {
 
 ```forge
 global g = {
-  someValue: 1,
-  someString: "foo",
-  constantValue: 3.14
+  someValue: 1,
+  someString: "foo",
+  constantValue: 3.14
 };
 
 func readGlobal(): inum {
-  deliver g.someValue;
+  deliver g.someValue;
 }
 ```
 
@@ -923,13 +924,13 @@ func readGlobal(): inum {
 
 ```forge
 custom Token = {
-  Pi(3.14),
-  Count(21),
-  Enabled(TT);
+  Pi(3.14),
+  Count(21),
+  Enabled(TT);
 }
 
 func getPi(): dnum {
-  deliver Token.Pi;
+  deliver Token.Pi;
 }
 ```
 
@@ -948,7 +949,7 @@ flags = flags shiftl 1;
 let n = 0;
 
 execute {
-  n = n + 1;
+  n = n + 1;
 } whenis (n < 5);
 ```
 
