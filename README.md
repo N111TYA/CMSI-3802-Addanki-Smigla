@@ -4,7 +4,7 @@
 
 <h1 align="center">Forge</h1>
 
-<p align="center"><strong><a href="https://N111TYA.github.io/Forge/">Companion Website</a></strong> · <strong><a href="https://github.com/N111TYA/Forge">GitHub Repository</a></strong></p>
+<p align="center"><strong><a href="https://N111TYA.github.io/Forge/">Companion Website</a></strong> · <strong><a href="https://github.com/N111TYA/Forge">GitHub Repository</a></strong> · <strong><a href="https://github.com/N111TYA/Forge/blob/main/src/forge.ohm">Grammar</a></strong></p>
 
 <p align="center">
   A statically-typed, JavaScript-targeting programming language with expressive control flow and intuitive bit manipulation.
