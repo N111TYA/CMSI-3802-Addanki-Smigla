@@ -1,1 +1,1026 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- EDIT LINES 974 & 980: FILL OUT THE INFO CARDS FOR YOU AND YOUR TEAMMATE -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Forge — A Statically Typed Language</title>
+  <link rel="icon" href="images/Icon.webp" type="image/webp">
+  <style>
+/* ─── Variables ─────────────────────────────────────────── */
+:root {
+  --bg:         #f7f3ec;
+  --surface:    #eee9df;
+  --forest:     #2d3b2a;
+  --sage:       #7a9e7e;
+  --sage-muted: #b4c9b4;
+  --code-bg:    #252f24;
+  --code-text:  #d4e8c2;
+  --text:       #3a3a3a;
+}
+
+/* ─── Reset ──────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
+
+a { color: var(--sage); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+code, pre { font-family: 'Courier New', Courier, monospace; }
+
+/* ─── Layout ─────────────────────────────────────────────── */
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+section { padding: 4rem 0; }
+
+section h2 {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 1.75rem;
+  color: var(--forest);
+  margin-bottom: 1.75rem;
+}
+
+hr.section-rule {
+  border: none;
+  border-top: 1px solid var(--sage-muted);
+  margin: 0;
+}
+
+/* ─── Nav ────────────────────────────────────────────────── */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--bg);
+  border-bottom: 1px solid var(--sage-muted);
+}
+
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: Georgia, serif;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: var(--forest);
+  text-decoration: none;
+}
+
+.nav-brand:hover { text-decoration: none; }
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.nav-links a {
+  font-size: 0.9rem;
+  color: var(--text);
+}
+
+.nav-links a:hover { color: var(--sage); text-decoration: none; }
+
+/* ─── Hero ───────────────────────────────────────────────── */
+.hero {
+  text-align: center;
+  padding: 5rem 1.5rem 4rem;
+}
+
+.hero .logo {
+  max-width: 200px;
+  height: auto;
+  margin-bottom: 1.5rem;
+}
+
+.hero h1 {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 3.5rem;
+  color: var(--forest);
+  letter-spacing: -0.02em;
+  margin-bottom: 1rem;
+}
+
+.hero .tagline {
+  font-size: 1.1rem;
+  color: #555;
+  max-width: 580px;
+  margin: 0 auto 2rem;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.65rem 1.5rem;
+  font-size: 0.95rem;
+  font-family: inherit;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: background 0.15s, color 0.15s;
+}
+
+.btn-primary {
+  background: var(--sage);
+  color: #fff;
+  border: 2px solid var(--sage);
+  text-decoration: none;
+}
+
+.btn-primary:hover {
+  background: var(--forest);
+  border-color: var(--forest);
+  text-decoration: none;
+  color: #fff;
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--sage);
+  border: 2px solid var(--sage);
+  text-decoration: none;
+}
+
+.btn-outline:hover {
+  background: var(--sage);
+  color: #fff;
+  text-decoration: none;
+}
+
+/* ─── Story ──────────────────────────────────────────────── */
+.story p {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: var(--text);
+  max-width: 720px;
+}
+
+.story p + p { margin-top: 1.25rem; }
+
+/* ─── Features ───────────────────────────────────────────── */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+.feature-card {
+  background: var(--surface);
+  border: 1px solid var(--sage-muted);
+  padding: 1.5rem;
+}
+
+.feature-card h3 {
+  font-family: Georgia, serif;
+  font-size: 1rem;
+  color: var(--forest);
+  margin-bottom: 0.5rem;
+}
+
+.feature-card p {
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: #555;
+}
+
+.feature-card code {
+  font-size: 0.82rem;
+  background: #ddd8ce;
+  padding: 0.1em 0.3em;
+  border-radius: 2px;
+}
+
+/* ─── Static Checks ──────────────────────────────────────── */
+.checks-list {
+  list-style: none;
+  border-top: 1px solid var(--sage-muted);
+}
+
+.checks-list li {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid var(--surface);
+  font-size: 0.95rem;
+}
+
+.check-num {
+  font-size: 0.78rem;
+  color: var(--sage-muted);
+  min-width: 1.5rem;
+  text-align: right;
+}
+
+.check-label { flex: 1; }
+
+.badge {
+  font-size: 0.72rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 2px;
+  white-space: nowrap;
+}
+
+.badge-enforced { background: var(--sage); color: #fff; }
+
+.badge-pending {
+  background: transparent;
+  color: var(--sage-muted);
+  border: 1px solid var(--sage-muted);
+}
+
+/* ─── Examples ───────────────────────────────────────────── */
+.example-tabs {
+  display: flex;
+  border-bottom: 2px solid var(--sage-muted);
+  margin-bottom: 0;
+  flex-wrap: wrap;
+}
+
+.example-tab {
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+  padding: 0.7rem 1.25rem;
+  font-family: inherit;
+  font-size: 0.9rem;
+  color: #777;
+  cursor: pointer;
+}
+
+.example-tab.active {
+  color: var(--sage);
+  border-bottom-color: var(--sage);
+  font-weight: 600;
+}
+
+.example-tab:hover:not(.active) { color: var(--forest); }
+
+.example-panel { display: none; padding-top: 1.25rem; }
+.example-panel.active { display: block; }
+
+.example-desc {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 0.75rem;
+}
+
+.code-tabs {
+  display: flex;
+  gap: 0.4rem;
+  margin-bottom: 0.6rem;
+}
+
+.code-tab {
+  background: var(--surface);
+  border: 1px solid var(--sage-muted);
+  padding: 0.35rem 1rem;
+  font-family: inherit;
+  font-size: 0.82rem;
+  cursor: pointer;
+  color: var(--text);
+}
+
+.code-tab.active {
+  background: var(--sage);
+  color: #fff;
+  border-color: var(--sage);
+}
+
+.code-pane { display: none; }
+.code-pane.active { display: block; }
+
+pre {
+  background: var(--code-bg);
+  color: var(--code-text);
+  padding: 1.5rem;
+  overflow-x: auto;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  line-height: 1.65;
+}
+
+/* ─── Team ───────────────────────────────────────────────── */
+.team-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.bio-card {
+  background: var(--surface);
+  border: 1px solid var(--sage-muted);
+  border-top: 4px solid var(--sage);
+  padding: 2rem;
+}
+
+.bio-card h3 {
+  font-family: Georgia, serif;
+  font-size: 1.2rem;
+  color: var(--forest);
+  margin-bottom: 0.2rem;
+}
+
+.bio-card .role {
+  font-size: 0.85rem;
+  color: var(--sage);
+  margin-bottom: 1rem;
+}
+
+.bio-card p {
+  font-size: 0.925rem;
+  line-height: 1.65;
+  color: #555;
+}
+
+/* ─── Footer ─────────────────────────────────────────────── */
+.footer {
+  background: var(--forest);
+  color: #c8d8c4;
+  padding: 2.5rem 0;
+  text-align: center;
+}
+
+.footer p { margin-bottom: 0.5rem; font-size: 0.9rem; }
+
+.footer a { color: var(--sage-muted); }
+.footer a:hover { color: var(--sage); text-decoration: none; }
+
+.footer .repo-link {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #d4e8c2;
+}
+
+/* ─── Responsive ─────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .features-grid { grid-template-columns: repeat(2, 1fr); }
+  .team-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 480px) {
+  .features-grid { grid-template-columns: 1fr; }
+  .hero h1 { font-size: 2.25rem; }
+  .nav-links { flex-wrap: wrap; gap: 0.5rem; }
+  .nav-inner { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+}
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="container nav-inner">
+    <a class="nav-brand" href="#">
+      <img src="images/Icon.webp" alt="" width="24" height="24">
+      Forge
+    </a>
+    <ul class="nav-links">
+      <li><a href="#story">Story</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#checks">Checks</a></li>
+      <li><a href="#examples">Examples</a></li>
+      <li><a href="#team">Team</a></li>
+      <li><a href="https://github.com/N111TYA/Forge" target="_blank" rel="noopener">GitHub ↗</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <img class="logo" src="images/Logo.webp" alt="Forge logo">
+  <h1>Forge</h1>
+  <p class="tagline">A statically typed language that compiles to JavaScript — built for clarity, precision, and craft.</p>
+  <div class="hero-buttons">
+    <a class="btn btn-primary" href="https://github.com/N111TYA/Forge" target="_blank" rel="noopener">View on GitHub</a>
+    <a class="btn btn-outline" href="#examples">Jump to Examples</a>
+  </div>
+</header>
+
+<hr class="section-rule">
+
+<main>
+
+<!-- STORY -->
+<section id="story">
+  <div class="container story">
+    <h2>The Story</h2>
+    <p>Forge was built around a simple question: what if writing low-level logic felt as deliberate as metalwork? Most languages either enforce rigid ceremony or leave too much implied. Forge takes a different path — every function declares what it returns, every variable knows its type, and the compiler tells you exactly when something is wrong before your code ever runs.</p>
+    <p>Forge compiles to JavaScript through a full pipeline: a grammar defined in Ohm.js, a parser that builds a typed AST, a static analyzer that enforces thirteen safety checks, an optimizer that folds constants and eliminates dead branches, and a code generator that produces clean, readable JS. Control flow reads like intention — <code>is</code> instead of <code>if</code>, <code>whenis</code> for while loops, <code>deliver</code> to return a value, <code>resolve</code> to return nothing.</p>
+    <p>The language is intentionally small. Forge doesn't try to do everything — it tries to do its small set of things precisely and verifiably. It's a language for people who want to know exactly what their code is doing, and a compiler that makes that knowledge cheap.</p>
+  </div>
+</section>
+
+<hr class="section-rule">
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="container">
+    <h2>Features</h2>
+    <div class="features-grid">
+
+      <div class="feature-card">
+        <h3>Strong Types</h3>
+        <p>Nine primitive types: <code>byte</code>, <code>char</code>, <code>snum</code>, <code>inum</code>, <code>lnum</code>, <code>fnum</code>, <code>dnum</code>, <code>hilo</code> (boolean), and <code>empty</code> (void). Every function signature is explicit.</p>
+      </div>
+
+      <div class="feature-card">
+        <h3>Expressive Control Flow</h3>
+        <p><code>is</code>/<code>not</code> (if/else), <code>whenis</code> (while), <code>whento</code> (for), <code>execute</code>/<code>whenis</code> (do-while), and <code>hub</code> (switch) — each keyword names the intent, not the mechanism.</p>
+      </div>
+
+      <div class="feature-card">
+        <h3>Safety by Default</h3>
+        <p>Sixteen static checks enforced at compile time — undeclared variables, bad assignments, wrong call signatures, type mismatches, and more. Errors surface before execution.</p>
+      </div>
+
+      <div class="feature-card">
+        <h3>Bit-Level Precision</h3>
+        <p>Native bit indexing (<code>x{n}</code>), bitwise word operators (<code>bitand</code>, <code>bitor</code>, <code>shiftl</code>, <code>shiftr</code>, <code>bitnot</code>), and array slicing (<code>x[i:j]</code>).</p>
+      </div>
+
+      <div class="feature-card">
+        <h3>Custom Types</h3>
+        <p>Enum-style <code>custom</code> declarations with optional literal payloads. <code>hub</code> switch dispatches on them cleanly, with a mandatory <code>base</code> default clause.</p>
+      </div>
+
+      <div class="feature-card">
+        <h3>Compiles to JavaScript</h3>
+        <p>A full optimizer + generator pipeline produces readable, idiomatic JS. No runtime, no bundler, no ceremony — just clean output you can read and trust.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="section-rule">
+
+<!-- STATIC CHECKS -->
+<section id="checks">
+  <div class="container">
+    <h2>Static Analysis</h2>
+    <p style="margin-bottom:1.5rem;font-size:0.95rem;color:#555;">Forge enforces sixteen constraints at compile time.</p>
+    <ul class="checks-list">
+      <li><span class="check-num">1</span><span class="check-label">Undeclared identifier use</span><span class="badge badge-enforced">Enforced</span></li>
+      <li><span class="check-num">2</span><span class="check-label">Duplicate declarations in same scope</span><span class="badge badge-enforced">Enforced</span></li>
+      <li><span class="check-num">3</span><span class="check-label">Assignment to constants (<code>C</code>)</span><span class="badge badge-enforced">Enforced</span></li>
+      <li><span class="check-num">4</span><span class="check-label"><code>resolve</code> used in a non-void function</span><span class="badge badge-enforced">Enforced</span></li>
+      <li><span class="check-num">5</span><span class="check-label"><code>deliver</code> used in a void function</span><span class="badge badge-enforced">Enforced</span></li>
+      <li><span class="check-num">6</span><span class="check-label"><code>escape</code> used outside a loop or <code>hub</code></span><span class="badge badge-enforced">Enforced</span></li>
+      <li><span class="check-num">7</span><span class="check-label">Wrong argument count in function calls</span><span class="badge badge-enforced">Enforced</span></li>
+      <li><span class="check-num">8</span><span class="check-label">Wrong argument types in function calls</span><span class="badge badge-enforced">Enforced</span></li>
+      <li><span class="check-num">9</span><span class="check-label">Incompatible assignment types</span><span class="badge badge-enforced">Enforced</span></li>
+      <li><span class="check-num">10</span><span class="check-label">Invalid operator/type combinations</span><span class="badge badge-enforced">Enforced</span></li>
+      <li><span class="check-num">11</span><span class="check-label">Duplicate case labels in <code>hub</code></span><span class="badge badge-enforced">Enforced</span></li>
+      <li><span class="check-num">12</span><span class="check-label">Bitwise operations on non-integer types</span><span class="badge badge-enforced">Enforced</span></li>
+      <li><span class="check-num">13</span><span class="check-label">Type widening rules (e.g. <code>hilo</code> → <code>inum</code>)</span><span class="badge badge-enforced">Enforced</span></li>
+      <li><span class="check-num">14</span><span class="check-label">Missing return in non-void functions</span><span class="badge badge-enforced">Enforced</span></li>
+      <li><span class="check-num">15</span><span class="check-label">Multiple <code>base</code> clauses in <code>hub</code> (grammar prevents it structurally)</span><span class="badge badge-enforced">Enforced</span></li>
+      <li><span class="check-num">16</span><span class="check-label">Non-constant case label expressions</span><span class="badge badge-enforced">Enforced</span></li>
+    </ul>
+  </div>
+</section>
+
+<hr class="section-rule">
+
+<!-- EXAMPLES -->
+<section id="examples">
+  <div class="container">
+    <h2>Examples</h2>
+    <p style="margin-bottom:1.5rem;font-size:0.95rem;color:#555;">Five complete programs — click a tab to browse, then toggle between Forge source and generated JavaScript.</p>
+
+    <div class="examples-container">
+      <!-- TOP-LEVEL TABS -->
+      <div class="example-tabs">
+        <button class="example-tab active" data-panel="ex-hello">Hello</button>
+        <button class="example-tab" data-panel="ex-math">Math</button>
+        <button class="example-tab" data-panel="ex-bitops">Bitops</button>
+        <button class="example-tab" data-panel="ex-enum">Enum</button>
+        <button class="example-tab" data-panel="ex-globals">Globals</button>
+      </div>
+
+      <!-- EXAMPLE 1: HELLO -->
+      <div class="example-panel active" id="ex-hello">
+        <p class="example-desc">Demonstrates: typed function signatures, <code>is</code>/<code>not</code> (if/else), recursion, <code>deliver</code> (valued return), <code>resolve</code> (void return).</p>
+        <div class="code-tabs">
+          <button class="code-tab active" data-pane="forge-pane">Forge</button>
+          <button class="code-tab" data-pane="js-pane">JavaScript</button>
+        </div>
+        <div class="forge-pane code-pane active"><pre>// Hello World example — functions, strings, if/else
+
+func greet(name: dnum): empty {
+  resolve;
+}
+
+func max(a: inum, b: inum): inum {
+  is (a &gt; b) {
+    deliver a;
+  } not {
+    deliver b;
+  }
+}
+
+func factorial(n: inum): inum {
+  is (n &lt;= 1) {
+    deliver 1;
+  }
+  deliver n * factorial(n - 1);
+}
+
+func abs(x: inum): inum {
+  is (x &lt; 0) {
+    deliver -x;
+  }
+  deliver x;
+}
+
+let biggest = max(42, 17);
+let fact5 = factorial(5);
+let distance = abs(-99);</pre></div>
+        <div class="js-pane code-pane"><pre>function greet(name) {
+  return
+}
+function max(a, b) {
+  if ((a &gt; b)) {
+  return a
+} else {
+  return b
+}
+}
+function factorial(n) {
+  if ((n &lt;= 1)) {
+  return 1
+}
+  return (n * factorial((n - 1)))
+}
+function abs(x) {
+  if ((x &lt; 0)) {
+  return -(x)
+}
+  return x
+}
+let biggest = max(42, 17)
+let fact5 = factorial(5)
+let distance = abs(-99)</pre></div>
+      </div>
+
+      <!-- EXAMPLE 2: MATH -->
+      <div class="example-panel" id="ex-math">
+        <p class="example-desc">Demonstrates: <code>whento</code> (for loop), <code>whenis</code> (while loop), compound assignment (<code>*=</code>, <code>+=</code>), constants (<code>C</code>), GCD algorithm.</p>
+        <div class="code-tabs">
+          <button class="code-tab active" data-pane="forge-pane">Forge</button>
+          <button class="code-tab" data-pane="js-pane">JavaScript</button>
+        </div>
+        <div class="forge-pane code-pane active"><pre>// Math example — loops, arithmetic, exponentiation
+
+func power(b: inum, e: inum): inum {
+  let result = 1;
+  whento (let i = 0; i &lt; e; i++) {
+    result *= b;
+  }
+  deliver result;
+}
+
+func sumTo(n: inum): inum {
+  let total = 0;
+  let i = 1;
+  whenis (i &lt;= n) {
+    total += i;
+    i += 1;
+  }
+  deliver total;
+}
+
+func gcd(a: inum, b: inum): inum {
+  whenis (b != 0) {
+    let temp = b;
+    b = a % b;
+    a = temp;
+  }
+  deliver a;
+}
+
+func isEven(n: inum): hilo {
+  deliver (n % 2) == 0;
+}
+
+C PI = 3;
+let p = power(2, 10);
+let s = sumTo(100);
+let g = gcd(48, 18);
+let evenCheck = isEven(42);</pre></div>
+        <div class="js-pane code-pane"><pre>function power(b, e) {
+  let result = 1
+  for (let i = 0; (i &lt; e); i++) {
+  result *= b
+}
+  return result
+}
+function sumTo(n) {
+  let total = 0
+  let i = 1
+  while ((i &lt;= n)) {
+  total += i
+  i += 1
+}
+  return total
+}
+function gcd(a, b) {
+  while ((b != 0)) {
+  let temp = b
+  b = (a % b)
+  a = temp
+}
+  return a
+}
+function isEven(n) {
+  return ((n % 2) == 0)
+}
+const PI = 3
+let p = power(2, 10)
+let s = sumTo(100)
+let g = gcd(48, 18)
+let evenCheck = isEven(42)</pre></div>
+      </div>
+
+      <!-- EXAMPLE 3: BITOPS -->
+      <div class="example-panel" id="ex-bitops">
+        <p class="example-desc">Demonstrates: <code>bitand</code>, <code>bitor</code>, <code>shiftl</code>, <code>shiftr</code>, <code>bitnot</code>, bit-index read (<code>x{pos}</code>), bit-index write (<code>flags{0} = TT</code>).</p>
+        <div class="code-tabs">
+          <button class="code-tab active" data-pane="forge-pane">Forge</button>
+          <button class="code-tab" data-pane="js-pane">JavaScript</button>
+        </div>
+        <div class="forge-pane code-pane active"><pre>// Bit operations example — bit indexing, bitwise ops, flags
+
+func setBit(x: inum, pos: inum): inum {
+  deliver x | (1 shiftl pos);
+}
+
+func clearBit(x: inum, pos: inum): inum {
+  deliver x &amp; (bitnot (1 shiftl pos));
+}
+
+func testBit(x: inum, pos: inum): hilo {
+  deliver x{pos};
+}
+
+func countBits(x: inum): inum {
+  let count = 0;
+  let n = x;
+  whenis (n != 0) {
+    count += n &amp; 1;
+    n = n shiftr 1;
+  }
+  deliver count;
+}
+
+let flags = 0;
+flags{0} = TT;
+flags{2} = TT;
+flags{4} = TT;
+
+let masked = flags bitand 5;
+let shifted = flags shiftl 1;
+let bit2 = testBit(flags, 2);
+let ones = countBits(flags);
+
+flags{2} = FF;</pre></div>
+        <div class="js-pane code-pane"><pre>function setBit(x, pos) {
+  return (x | (1 &lt;&lt; pos))
+}
+function clearBit(x, pos) {
+  return (x &amp; ~((1 &lt;&lt; pos)))
+}
+function testBit(x, pos) {
+  return ((x &gt;&gt; pos) &amp; 1)
+}
+function countBits(x) {
+  let count = 0
+  let n = x
+  while ((n != 0)) {
+  count += (n &amp; 1)
+  n = (n &gt;&gt; 1)
+}
+  return count
+}
+let flags = 0
+flags = flags | (1 &lt;&lt; 0)
+flags = flags | (1 &lt;&lt; 2)
+flags = flags | (1 &lt;&lt; 4)
+let masked = (flags &amp; 5)
+let shifted = (flags &lt;&lt; 1)
+let bit2 = testBit(flags, 2)
+let ones = countBits(flags)
+flags = flags &amp; ~(1 &lt;&lt; 2)</pre></div>
+      </div>
+
+      <!-- EXAMPLE 4: ENUM -->
+      <div class="example-panel" id="ex-enum">
+        <p class="example-desc">Demonstrates: <code>custom</code> types (plain and valued), <code>hub</code> switch with case labels and <code>base</code> default, field access (<code>Direction.North</code>).</p>
+        <div class="code-tabs">
+          <button class="code-tab active" data-pane="forge-pane">Forge</button>
+          <button class="code-tab" data-pane="js-pane">JavaScript</button>
+        </div>
+        <div class="forge-pane code-pane active"><pre>// Custom types (enums) example — hub/switch, field access
+
+custom Direction = {
+  North,
+  South,
+  East,
+  West;
+}
+
+custom Status = {
+  Ok(0),
+  Warn(1),
+  Err(2);
+}
+
+custom Color = {
+  Red(255),
+  Green(128),
+  Blue(64);
+}
+
+func dirName(d: inum): inum {
+  hub (d) {
+    :{0}: {
+      deliver Direction.North;
+    }
+    :{1}: {
+      deliver Direction.South;
+    }
+    :{2}: {
+      deliver Direction.East;
+    }
+    :{3}: {
+      deliver Direction.West;
+    }
+    base {
+      deliver -1;
+    }
+  }
+}
+
+func isError(code: inum): hilo {
+  deliver code == 2;
+}
+
+let dir = Direction.North;
+let status = Status.Ok;
+let col = Color.Red;
+let check = isError(2);
+let named = dirName(1);</pre></div>
+        <div class="js-pane code-pane"><pre>const Direction = Object.freeze({
+  North: 0,
+  South: 1,
+  East: 2,
+  West: 3
+})
+const Status = Object.freeze({
+  Ok: 0,
+  Warn: 1,
+  Err: 2
+})
+const Color = Object.freeze({
+  Red: 255,
+  Green: 128,
+  Blue: 64
+})
+function dirName(d) {
+  switch (d) {
+  case 0:
+  return Direction.North
+    break
+  case 1:
+  return Direction.South
+    break
+  case 2:
+  return Direction.East
+    break
+  case 3:
+  return Direction.West
+    break
+  default:
+  return -1
+}
+}
+function isError(code) {
+  return (code == 2)
+}
+let dir = Direction.North
+let status = Status.Ok
+let col = Color.Red
+let check = isError(2)
+let named = dirName(1)</pre></div>
+      </div>
+
+      <!-- EXAMPLE 5: GLOBALS -->
+      <div class="example-panel" id="ex-globals">
+        <p class="example-desc">Demonstrates: <code>global</code> declarations, field access (<code>config.maxRetries</code>), multi-branch functions, nested loop + if/else (Collatz).</p>
+        <div class="code-tabs">
+          <button class="code-tab active" data-pane="forge-pane">Forge</button>
+          <button class="code-tab" data-pane="js-pane">JavaScript</button>
+        </div>
+        <div class="forge-pane code-pane active"><pre>// Globals and field access example — global state, complex programs
+
+global config = {
+  maxRetries: 3,
+  timeout: 5000,
+  version: 1
+};
+
+global counters = {
+  hits: 0,
+  misses: 0,
+  errors: 0
+};
+
+func clamp(val: inum, lo: inum, hi: inum): inum {
+  is (val &lt; lo) {
+    deliver lo;
+  }
+  is (val &gt; hi) {
+    deliver hi;
+  }
+  deliver val;
+}
+
+func inRange(val: inum, lo: inum, hi: inum): hilo {
+  deliver val &gt;= lo &amp;&amp; val &lt;= hi;
+}
+
+func sign(x: inum): inum {
+  is (x &gt; 0) { deliver 1; }
+  is (x &lt; 0) { deliver -1; }
+  deliver 0;
+}
+
+func isEven(n: inum): hilo {
+  deliver (n % 2) == 0;
+}
+
+func collatz(n: inum): inum {
+  let steps = 0;
+  let x = n;
+  whenis (x != 1) {
+    is (isEven(x)) {
+      x = x / 2;
+    } not {
+      x = 3 * x + 1;
+    }
+    steps += 1;
+  }
+  deliver steps;
+}
+
+let v = clamp(150, 0, 100);
+let ok = inRange(50, 0, 100);
+let s = sign(-7);
+let maxR = config.maxRetries;</pre></div>
+        <div class="js-pane code-pane"><pre>const config = {
+  maxRetries: 3,
+  timeout: 5000,
+  version: 1
+}
+const counters = {
+  hits: 0,
+  misses: 0,
+  errors: 0
+}
+function clamp(val, lo, hi) {
+  if ((val &lt; lo)) {
+  return lo
+}
+  if ((val &gt; hi)) {
+  return hi
+}
+  return val
+}
+function inRange(val, lo, hi) {
+  return ((val &gt;= lo) &amp;&amp; (val &lt;= hi))
+}
+function sign(x) {
+  if ((x &gt; 0)) {
+  return 1
+}
+  if ((x &lt; 0)) {
+  return -1
+}
+  return 0
+}
+function isEven(n) {
+  return ((n % 2) == 0)
+}
+function collatz(n) {
+  let steps = 0
+  let x = n
+  while ((x != 1)) {
+  if (isEven(x)) {
+  x = (x / 2)
+} else {
+  x = ((3 * x) + 1)
+}
+  steps += 1
+}
+  return steps
+}
+let v = clamp(150, 0, 100)
+let ok = inRange(50, 0, 100)
+let s = sign(-7)
+let maxR = config.maxRetries</pre></div>
+      </div>
+
+    </div><!-- /.examples-container -->
+  </div>
+</section>
+
+<hr class="section-rule">
+
+<!-- TEAM -->
+<section id="team">
+  <div class="container">
+    <h2>The Team</h2>
+    <div class="team-grid">
+
+      <div class="bio-card">
+        <h3>Nitya Addanki</h3>
+        <p class="role">Language Designer &amp; Compiler Engineer</p>
+        <p><!-- Nitya: add a 2–3 sentence bio here describing your background and what you contributed to Forge. --></p>
+      </div>
+
+      <div class="bio-card">
+        <h3>Tessa Smigla</h3>
+        <p class="role">Language Designer &amp; Compiler Engineer</p>
+        <p><!-- Tessa: add a 2–3 sentence bio here describing your background and what you contributed to Forge. --></p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <p>Forge — a statically typed language targeting JavaScript</p>
+    <p><a class="repo-link" href="https://github.com/JohhannasReyn/Forge" target="_blank" rel="noopener">View on GitHub ↗</a></p>
+    <p>MIT License &middot; CMSI 3802 &middot; Loyola Marymount University</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  // Top-level example tabs (Hello / Math / Bitops / Enum / Globals)
+  document.querySelectorAll('.example-tab').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var container = btn.closest('.examples-container');
+      container.querySelectorAll('.example-tab').forEach(function (t) { t.classList.remove('active'); });
+      container.querySelectorAll('.example-panel').forEach(function (p) { p.classList.remove('active'); });
+      btn.classList.add('active');
+      document.getElementById(btn.dataset.panel).classList.add('active');
+    });
+  });
+
+  // Code sub-tabs (Forge | JavaScript) within each panel
+  document.querySelectorAll('.code-tab').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var panel = btn.closest('.example-panel');
+      panel.querySelectorAll('.code-tab').forEach(function (t) { t.classList.remove('active'); });
+      panel.querySelectorAll('.code-pane').forEach(function (p) { p.classList.remove('active'); });
+      btn.classList.add('active');
+      panel.querySelector('.' + btn.dataset.pane).classList.add('active');
+    });
+  });
+})();
+</script>
+</body>
+</html>
+
