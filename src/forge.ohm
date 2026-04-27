@@ -1,0 +1,214 @@
+Forge {
+  Program = Statement*
+
+  Statement
+    = FuncDecl
+    | CustomDecl
+    | GlobalDecl
+    | VarDecl
+    | ConstDecl
+    | AssignStmt
+    | CompoundAssignStmt
+    | ReturnStmt
+    | BreakStmt
+    | IfStmt
+    | WhileStmt
+    | DoWhileStmt
+    | ForStmt
+    | SwitchStmt
+    | ExprStmt
+
+  FuncDecl = "func" id "(" Params ")" ":" Type Block
+
+  Params = ListOf<Param, ",">
+  Param = id ":" Type
+
+  Type
+    = "byte"  -- byte
+    | "char"  -- char
+    | "snum"  -- snum
+    | "inum"  -- inum
+    | "lnum"  -- lnum
+    | "fnum"  -- fnum
+    | "dnum"  -- dnum
+    | "hilo"  -- hilo
+    | "empty" -- empty
+    | id      -- custom
+
+  CustomDecl = "custom" id "=" "{" NonemptyListOf<CustomMember, ","> ";" "}"
+  CustomMember
+    = id "(" literal ")"  -- valued
+    | id                  -- plain
+
+  GlobalDecl = "global" id "=" "{" NonemptyListOf<GlobalField, ","> "}" ";"
+  GlobalField = id ":" Exp
+
+  VarDecl
+    = "let" id ":" Type "=" Exp ";"  -- typed
+    | "let" id "=" Exp ";"           -- inferred
+
+  ConstDecl
+    = "C" id ":" Type "=" Exp ";"  -- typed
+    | "C" id "=" Exp ";"           -- inferred
+
+  AssignStmt
+    = id "{" Exp "}" "=" boollit ";"  -- bitset
+    | id "=" Exp ";"                  -- simple
+
+  CompoundAssignStmt = id compoundOp Exp ";"
+  compoundOp = "+=" | "-=" | "*=" | "/="
+
+  ReturnStmt
+    = "resolve" ";"     -- empty
+    | "deliver" Exp ";" -- value
+
+  BreakStmt = "escape" ";"
+
+  IfStmt = "is" "(" Exp ")" Block ("not" Block)?
+
+  WhileStmt = "whenis" "(" Exp ")" Block
+
+  DoWhileStmt = "execute" Block "whenis" "(" Exp ")" ";"
+
+  ForStmt = "whento" "(" ForInit ";" Exp ";" ForUpdate ")" Block
+  ForInit
+    = "let" id "=" Exp  -- decl
+    | id "=" Exp        -- assign
+  ForUpdate
+    = id "++"           -- postInc
+    | id "--"           -- postDec
+    | "++" id           -- preInc
+    | "--" id           -- preDec
+    | id compoundOp Exp -- compound
+
+  SwitchStmt = "hub" "(" Exp ")" "{" CaseClause* DefaultClause? "}"
+  CaseClause = ":{" Exp "}:" Block
+  DefaultClause = "base" Block
+
+  Block = "{" Statement* "}"
+  ExprStmt = Exp ";"
+
+  Exp = Ternary
+  Ternary
+    = LogOrExp "?" Ternary ":" Ternary  -- ternary
+    | LogOrExp                          -- passthru
+
+  LogOrExp
+    = LogOrExp "||" LogXorExp  -- or
+    | LogOrExp "^|" LogXorExp  -- xor
+    | LogXorExp                -- passthru
+
+  LogXorExp
+    = LogXorExp "^&" LogAndExp  -- xnor
+    | LogAndExp                 -- passthru
+
+  LogAndExp
+    = LogAndExp "&&" EqExp  -- and
+    | EqExp                 -- passthru
+
+  EqExp
+    = EqExp "==" RelExp  -- eq
+    | EqExp "!=" RelExp  -- ne
+    | RelExp             -- passthru
+
+  RelExp
+    = RelExp "<=" AddExp  -- le
+    | RelExp ">=" AddExp  -- ge
+    | RelExp "<" AddExp   -- lt
+    | RelExp ">" AddExp   -- gt
+    | AddExp              -- passthru
+
+  AddExp
+    = AddExp "+" MulExp  -- plus
+    | AddExp "-" MulExp  -- minus
+    | MulExp             -- passthru
+
+  MulExp
+    = MulExp "*" BitExp  -- times
+    | MulExp "/" BitExp  -- divide
+    | MulExp "%" BitExp  -- mod
+    | BitExp             -- passthru
+
+  BitExp
+    = BitExp "bitand" ExpExp  -- bitand
+    | BitExp "bitor"  ExpExp  -- bitor
+    | BitExp "bitxor" ExpExp  -- bitxor
+    | BitExp "shiftl" ExpExp  -- shiftl
+    | BitExp "shiftr" ExpExp  -- shiftr
+    | BitExp "&" ExpExp       -- symbAnd
+    | BitExp "|" ExpExp       -- symbOr
+    | ExpExp                  -- passthru
+
+  ExpExp
+    = UnaryExp "^" ExpExp  -- power
+    | UnaryExp             -- passthru
+
+  UnaryExp
+    = "++" id              -- preInc
+    | "--" id              -- preDec
+    | "!" UnaryExp         -- not
+    | "-" UnaryExp         -- neg
+    | "bitnot" UnaryExp    -- bitnot
+    | PostfixExp           -- passthru
+
+  PostfixExp
+    = PostfixExp "++"  -- postInc
+    | PostfixExp "--"  -- postDec
+    | CallExp          -- passthru
+
+  CallExp
+    = id "(" ListOf<Exp, ","> ")"  -- call
+    | MemberExp                    -- passthru
+
+  MemberExp
+    = MemberExp "." id        -- field
+    | id "{" Exp "}"          -- bitIndex
+    | id "[" Exp ":" Exp "]"  -- slice
+    | id "[" Exp "]"          -- index
+    | PriExp                  -- passthru
+
+  PriExp
+    = "(" Exp ")"  -- paren
+    | boollit      -- bool
+    | "non"        -- null
+    | strlit       -- string
+    | charlit      -- char
+    | numlit       -- num
+    | id           -- id
+
+  boollit = "TT" | "FF"
+
+  numlit
+    = digit+ "." digit+  -- float
+    | digit+             -- int
+
+  strlit   = "\"" strchar* "\""
+  strchar  = strchar_escape | strchar_normal
+  strchar_escape = "\\" escseq
+  strchar_normal = ~("\"" | "\\" | "\n") any
+  charlit  = "'" charchar "'"
+  charchar  = charchar_escape | charchar_normal
+  charchar_escape = "\\" escseq
+  charchar_normal = ~("'" | "\\" | "\n") any
+  escseq   = "n" | "t" | "r" | "\"" | "'" | "\\" | "0"
+
+  literal
+    = numlit
+    | strlit
+    | charlit
+    | boollit
+
+  id = ~keyword (letter | "_") (alnum | "_")*
+
+  keyword
+    = ( "async" | "await" | "base" | "bitand" | "bitnot" | "bitor" | "bitxor"
+      | "blueprint" | "byte" | "char" | "custom" | "C" | "deliver" | "dnum"
+      | "empty" | "escape" | "execute" | "farm" | "FF" | "fin" | "fnum" | "func"
+      | "global" | "hilo" | "hub" | "inum" | "is" | "let" | "lnum" | "non"
+      | "not" | "overt" | "preload" | "proceed" | "resolve" | "secret" | "shiftl"
+      | "shiftr" | "snum" | "synced" | "TT" | "whenis" | "whento" ) ~(alnum | "_")
+
+  space
+   += "//" (~"\n" any)* "\n"?  -- lineComment
+    | "/*" (~"*/" any)* "*/"    -- blockComment
+}

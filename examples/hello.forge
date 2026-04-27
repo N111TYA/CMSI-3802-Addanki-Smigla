@@ -1,0 +1,31 @@
+// Hello World example — functions, strings, if/else
+
+func greet(name: dnum): empty {
+  resolve;
+}
+
+func max(a: inum, b: inum): inum {
+  is (a > b) {
+    deliver a;
+  } not {
+    deliver b;
+  }
+}
+
+func factorial(n: inum): inum {
+  is (n <= 1) {
+    deliver 1;
+  }
+  deliver n * factorial(n - 1);
+}
+
+func abs(x: inum): inum {
+  is (x < 0) {
+    deliver -x;
+  }
+  deliver x;
+}
+
+let biggest = max(42, 17);
+let fact5 = factorial(5);
+let distance = abs(-99);

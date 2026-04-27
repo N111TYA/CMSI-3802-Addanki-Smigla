@@ -1,0 +1,38 @@
+// Math example — loops, arithmetic, exponentiation
+
+func power(b: inum, e: inum): inum {
+  let result = 1;
+  whento (let i = 0; i < e; i++) {
+    result *= b;
+  }
+  deliver result;
+}
+
+func sumTo(n: inum): inum {
+  let total = 0;
+  let i = 1;
+  whenis (i <= n) {
+    total += i;
+    i += 1;
+  }
+  deliver total;
+}
+
+func gcd(a: inum, b: inum): inum {
+  whenis (b != 0) {
+    let temp = b;
+    b = a % b;
+    a = temp;
+  }
+  deliver a;
+}
+
+func isEven(n: inum): hilo {
+  deliver (n % 2) == 0;
+}
+
+C PI = 3;
+let p = power(2, 10);
+let s = sumTo(100);
+let g = gcd(48, 18);
+let evenCheck = isEven(42);

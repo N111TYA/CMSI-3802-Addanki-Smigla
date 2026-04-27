@@ -1,0 +1,50 @@
+// Custom types (enums) example — hub/switch, field access
+
+custom Direction = {
+  North,
+  South,
+  East,
+  West;
+}
+
+custom Status = {
+  Ok(0),
+  Warn(1),
+  Err(2);
+}
+
+custom Color = {
+  Red(255),
+  Green(128),
+  Blue(64);
+}
+
+func dirName(d: inum): inum {
+  hub (d) {
+    :{0}: {
+      deliver Direction.North;
+    }
+    :{1}: {
+      deliver Direction.South;
+    }
+    :{2}: {
+      deliver Direction.East;
+    }
+    :{3}: {
+      deliver Direction.West;
+    }
+    base {
+      deliver -1;
+    }
+  }
+}
+
+func isError(code: inum): hilo {
+  deliver code == 2;
+}
+
+let dir = Direction.North;
+let status = Status.Ok;
+let col = Color.Red;
+let check = isError(2);
+let named = dirName(1);

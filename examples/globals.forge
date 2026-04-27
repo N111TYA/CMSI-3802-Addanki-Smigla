@@ -1,0 +1,56 @@
+// Globals and field access example — global state, complex programs
+
+global config = {
+  maxRetries: 3,
+  timeout: 5000,
+  version: 1
+};
+
+global counters = {
+  hits: 0,
+  misses: 0,
+  errors: 0
+};
+
+func clamp(val: inum, lo: inum, hi: inum): inum {
+  is (val < lo) {
+    deliver lo;
+  }
+  is (val > hi) {
+    deliver hi;
+  }
+  deliver val;
+}
+
+func inRange(val: inum, lo: inum, hi: inum): hilo {
+  deliver val >= lo && val <= hi;
+}
+
+func sign(x: inum): inum {
+  is (x > 0) { deliver 1; }
+  is (x < 0) { deliver -1; }
+  deliver 0;
+}
+
+func isEven(n: inum): hilo {
+  deliver (n % 2) == 0;
+}
+
+func collatz(n: inum): inum {
+  let steps = 0;
+  let x = n;
+  whenis (x != 1) {
+    is (isEven(x)) {
+      x = x / 2;
+    } not {
+      x = 3 * x + 1;
+    }
+    steps += 1;
+  }
+  deliver steps;
+}
+
+let v = clamp(150, 0, 100);
+let ok = inRange(50, 0, 100);
+let s = sign(-7);
+let maxR = config.maxRetries;

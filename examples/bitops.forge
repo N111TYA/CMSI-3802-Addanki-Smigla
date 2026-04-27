@@ -1,0 +1,35 @@
+// Bit operations example — bit indexing, bitwise ops, flags
+
+func setBit(x: inum, pos: inum): inum {
+  deliver x | (1 shiftl pos);
+}
+
+func clearBit(x: inum, pos: inum): inum {
+  deliver x & (bitnot (1 shiftl pos));
+}
+
+func testBit(x: inum, pos: inum): hilo {
+  deliver x{pos};
+}
+
+func countBits(x: inum): inum {
+  let count = 0;
+  let n = x;
+  whenis (n != 0) {
+    count += n & 1;
+    n = n shiftr 1;
+  }
+  deliver count;
+}
+
+let flags = 0;
+flags{0} = TT;
+flags{2} = TT;
+flags{4} = TT;
+
+let masked = flags bitand 5;
+let shifted = flags shiftl 1;
+let bit2 = testBit(flags, 2);
+let ones = countBits(flags);
+
+flags{2} = FF;

@@ -1,0 +1,33 @@
+{
+  "name": "forge",
+  "version": "0.1.0",
+  "description": "The Forge programming language compiler",
+  "type": "module",
+  "main": "src/forge.js",
+  "bin": {
+    "forge": "src/forge.js"
+  },
+  "author": [
+    "Nitya Addanki",
+    "Tessa Smigla"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/N111TYA/Forge"
+  },
+  "scripts": {
+    "test": "c8 mocha --spec 'test/**/*.test.js' --timeout 10000",
+    "coverage": "c8 --reporter=lcov mocha --spec 'test/**/*.test.js'",
+    "format": "prettier --write \"**/*.{js,md,json}\""
+  },
+  "dependencies": {
+    "ohm-js": "^17.1.0"
+  },
+  "devDependencies": {
+    "c8": "^9.0.0",
+    "chai": "^6.2.2",
+    "mocha": "^10.0.0",
+    "prettier": "^3.0.0"
+  }
+}

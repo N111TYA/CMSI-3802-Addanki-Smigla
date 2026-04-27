@@ -1,4 +1,3 @@
-[README.md](https://github.com/user-attachments/files/27141013/README.md)
 <p align="center">
   <img src="docs/images/Logo.webp" alt="Forge Logo" width="250"/>
 </p>
