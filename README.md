@@ -5,7 +5,7 @@
 
 <h1 align="center">Forge</h1>
 
-<p align="center"><strong><a href="https://JohhanasReyn.github.io/Forge/">Companion Website</a></strong> · <strong><a href="https://github.com/JohhannasReyn/Forge">GitHub Repository</a></strong></p>
+<p align="center"><strong><a href="https://N111TYA.github.io/Forge/">Companion Website</a></strong> · <strong><a href="https://github.com/N111TYA/Forge">GitHub Repository</a></strong></p>
 
 <p align="center">
   A statically-typed, JavaScript-targeting programming language with expressive control flow and intuitive bit manipulation.
@@ -234,7 +234,7 @@ let check = isEven(result)
 **Requirements:** Node.js 18+
 
 ```bash
-git clone https://github.com/JohhannasReyn/Forge
+git clone https://github.com/N111TYA/Forge
 cd Forge
 npm install
 ```
